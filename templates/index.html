@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ICU Nutrition Tool - MVP</title>
+</head>
+
+<body>
+
+    <h2>ICU Patient Nutrition Calculator</h2>
+
+    <form id="nutritionForm" onsubmit="calculateNutrition(); return false;">
+        <label for="weight">Weight (kg):</label><br>
+        <input type="number" id="weight" name="weight" value="70"><br>
+        <label for="height">Height (cm):</label><br>
+        <input type="number" id="height" name="height" value="175"><br><br>
+        <input type="submit" value="Calculate Nutrition Needs">
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        function calculateNutrition() {
+            const formData = new FormData(document.getElementById('nutritionForm'));
+
+            fetch('/calculate', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerHTML = "Estimated Daily Caloric Needs: " + data.caloriesNeeded + " Kcal";
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+</body>
+
+</html>
